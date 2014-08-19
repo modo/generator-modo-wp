@@ -1,0 +1,21 @@
+{
+    "name": "sitename",
+    "version": "1.0.0",
+    "private": true,
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "bourbon": "~3.2.0",
+        "neat": "~1.5.0",
+        "sass-flex-mixin": "https://github.com/mastastealth/sass-flex-mixin.git",
+        "modernizr": "~2.8.3",
+        "normalize-scss": "~3.0.1",
+        "jquery": "~2.1.0",
+        "underscore": "~1.6.0"
+    }
+}

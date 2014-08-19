@@ -1,0 +1,15 @@
+$screen_small: new-breakpoint(max-width 767px 2);
+$screen_medium: new-breakpoint(max-width 960px 8);
+$screen_large: new-breakpoint(min-width 961px 12);
+$screen-jumbo: new-breakpoint(min-width 1400px 12);
+
+* {
+    @include box-sizing(border-box);
+}
+
+.container {
+    @include outer-container;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    margin: 0 auto;
+}
