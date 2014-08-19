@@ -4,10 +4,6 @@
  */
 module.exports = function (grunt, options) {
     return {
-        templates: {
-            files: ['<%= path.templates %>/**/*'],
-            tasks: ['assemble:development']
-        },
         styles: {
             files: ['<%= path.sass %>/**/*.scss'],
             tasks: ['sass:development']
@@ -19,14 +15,6 @@ module.exports = function (grunt, options) {
         scripts: {
             files: ['<%= path.js %>/**/*.js'],
             tasks: ['concat']
-        },
-        reload: {
-            files: [
-                '<%= path.public %>/**/*'
-            ],
-            options: {
-                livereload: true
-            }
         }
     };
 };

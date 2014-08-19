@@ -61,6 +61,10 @@ module.exports = yeoman.generators.Base.extend({
                     message: 'What is your sites\'s name ?'
                 },
                 {
+                    name: 'themeName',
+                    message: 'What would you like the theme to be called?'
+                },
+                {
                     name: 'wp_dbName',
                     message: 'Database name:'
                 },
@@ -88,76 +92,85 @@ module.exports = yeoman.generators.Base.extend({
             _.each(props, function (value, key) {
                 self[key] = value;
             });
+
+            self.themeDir = path.join('public/wp-content/themes' + props.themeName);
+
             done();
         });
     },
 
     writeWordpressConfig: function () {
         this.template('_wp-config.php', 'public/wp-config.php');
-    }
+    },
 
-    /*
     scaffoldFolders: function(){
-        this.mkdir('front-end');
-        this.mkdir('front-end/sass');
-        this.mkdir('front-end/sass/components');
-        this.mkdir('front-end/sass/site');
-        this.mkdir('front-end/templates');
-        this.mkdir('front-end/templates/layouts');
-        this.mkdir('front-end/templates/partials');
-        this.mkdir('front-end/templates/helpers');
-        this.mkdir('front-end/templates/data');
-        this.mkdir('public');
-        this.mkdir('public/lib');
-        this.mkdir('public/lib/img');
-        this.mkdir('public/lib/min');
-        this.mkdir('grunt');
+        this.mkdir(this.themeDir);
+        this.mkdir(path.join(this.themeDir, 'lib'));
+        this.mkdir(path.join(this.themeDir, 'lib/font'));
+        this.mkdir(path.join(this.themeDir, 'lib/sass'));
+        this.mkdir(path.join(this.themeDir, 'lib/sass/components'));
+        this.mkdir(path.join(this.themeDir, 'lib/sass/site'));
+        this.mkdir(path.join(this.themeDir, 'lib/js'));
+        this.mkdir(path.join(this.themeDir, 'lib/js/models'));
+        this.mkdir(path.join(this.themeDir, 'public/lib/img'));
+        this.mkdir(path.join(this.themeDir, 'public/lib/min'));
+        this.mkdir(path.join(this.themeDir, 'public/lib/inc'));
+        this.mkdir(path.join(this.themeDir, 'public/lib/inc/models'));
+        this.mkdir(path.join(this.themeDir, 'public/lib/inc/plugins'));
+        this.mkdir(path.join(this.themeDir, 'grunt'));
+    },
+
+    downloadMetaboxPlugin: function () {
+        var done = this.async();
+        console.log('Downloading Metabox plugin...');
+        request('https://github.com/WebDevStudios/Custom-Metaboxes-and-Fields-for-WordPress/archive/master.zip').pipe(fs.createWriteStream('metabox.zip')).on('close', done);
+    },
+
+    unzipMetaboxPlugin: function () {
+        var zip = new AdmZip('metabox.zip');
+        console.log('Unzipping Metabox plugin...');
+        zip.extractAllTo(path.join(this.themeDir, 'lib/inc/plugins'), true);
+    },
+
+    cleanupMetaboxPlugin: function () {
+        console.log('Cleaning up...');
+        fs.unlinkSync('metabox.zip');
     },
 
     copyPackageFiles: function () {
         // NPM
-        this.copy('_package.json', 'package.json');
+        this.copy('_package.json', path.join(this.themeDir, 'package.json'));
 
         // Bower
-        this.copy('_bower.json', 'bower.json');
+        this.copy('_bower.json', path.join(this.themeDir, 'bower.json'));
     },
 
     copyGruntConfigs: function () {
         // Main Gruntfile
-        this.template("_Gruntfile.js", "Gruntfile.js", { sitename: this.siteName });
+        this.template("_Gruntfile.js", path.join(this.themeDir, 'Gruntfile.js'), { sitename: this.siteName });
 
         // Grunt Task Configurations
-        this._copyDirectory('grunt', 'grunt/');
+        this._copyDirectory('grunt', path.join(this.themeDir, 'grunt/'));
     },
 
     copyJSTemplates: function () {
-        this.copy('js/_scripts.js', 'front-end/js/scripts.js');
+        this.copy('js/_scripts.js', path.join(this.themeDir, 'lib/js/scripts.js'));
     },
 
     copySCSSTemplates: function () {
         // Main Style File
-        this.copy('sass/_styles.scss', 'front-end/sass/styles.scss');
+        this.copy('sass/_styles.scss', path.join(this.themeDir, 'lib/sass/styles.scss'));
 
         // Common Components
-        this._copyDirectory('sass/components', 'front-end/sass/components/');
+        this._copyDirectory('sass/components', path.join(this.themeDir, 'lib/sass/components/'));
     },
 
-    copyHBSTemplates: function () {
-        // Layouts
-        this._copyDirectory('hbs/layouts', 'front-end/templates/layouts');
-
-        // Pages
-        this._copyDirectory('hbs/pages', 'front-end/templates/pages');
-
-        // Partials
-        this._copyDirectory('hbs/partials', 'front-end/templates/partials');
-
-        // Data
-        this.template('hbs/data/_project.json', 'front-end/templates/data/project.json', { sitename: this.siteName });
-    },
+    // TODO: Add common WP theme files
 
     runNpm: function () {
         var done = this.async();
+
+        process.chdir(this.themeDir);
 
         this.npmInstall('', function () {
             done();
@@ -167,9 +180,10 @@ module.exports = yeoman.generators.Base.extend({
     runBower: function () {
         var done = this.async();
 
+        process.chdir(this.themeDir);
+
         this.bowerInstall('', function () {
             done();
         });
     }
-    */
 });

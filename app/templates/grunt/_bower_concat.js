@@ -1,5 +1,5 @@
 /**
- * Concatenates all bower_component js into a single library file – /public/lib/min/libraries.min.js
+ * Concatenates all bower_component js into a single library file – /lib/min/libraries.min.js
  * @see https://github.com/sapegin/grunt-bower-concat
  */
 module.exports = function (grunt, options) {

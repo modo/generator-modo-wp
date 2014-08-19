@@ -6,7 +6,7 @@ module.exports = function (grunt) {
     require('load-grunt-config')(grunt, {
         loadGruntTasks: {
             scope: 'devDependencies',
-            pattern: ['grunt-*', 'assemble']
+            pattern: ['grunt-*']
         },
         data: {
             project: {
@@ -15,14 +15,11 @@ module.exports = function (grunt) {
             path: {
                 cwd: __dirname,
                 bower: __dirname + '/bower_components',
-                front: 'front-end',
-                js: 'front-end/js',
-                sass: 'front-end/sass',
-                templates: 'front-end/templates',
-                public: 'public',
-                lib: 'public/lib',
-                img: 'public/lib/img',
-                min: 'public/lib/min'
+                lib: 'lib',
+                js: 'lib/js',
+                sass: 'lib/sass',
+                img: 'lib/img',
+                min: 'lib/min'
             }
         }
     });

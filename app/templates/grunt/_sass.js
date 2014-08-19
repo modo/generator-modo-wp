@@ -1,5 +1,5 @@
 /**
- * Compiles files from /front-end/sass to single CSS at /public/lib/min/styles.css
+ * Compiles files from /lib/sass to single CSS at /lib/min/styles.css
  * @see https://github.com/sindresorhus/grunt-sass
  */
 module.exports = function (grunt, options) {

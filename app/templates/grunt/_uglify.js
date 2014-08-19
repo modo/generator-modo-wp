@@ -1,5 +1,5 @@
 /**
- * Minifies compiled JS files in /public/lib/min
+ * Minifies compiled JS files in /lib/min
  * @see https://github.com/gruntjs/grunt-contrib-uglify
  */
 module.exports = function (grunt, options) {

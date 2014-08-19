@@ -1,26 +1,20 @@
 module.exports = function (grunt, options) {
     return {
-        'prep': [
-            'clean',
-            'jshint'
-        ],
         'build:development': [
-            'prep',
+            'jshint',
             'concurrent:site_development',
             'concurrent:libraries',
             'notify:build'
         ],
         'build:production': [
-            'prep',
+            'jshint',
             'concurrent:site_production',
             'concurrent:libraries',
             'uglify',
             'notify:build'
         ],
-        'server': [
+        'develop': [
             'build:development',
-            'express',
-            'open',
             'watch'
         ]
     };

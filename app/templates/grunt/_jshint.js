@@ -1,5 +1,5 @@
 /**
- * Checks js in /front-end/js for common errors and code-style
+ * Checks js in /lib/js for common errors and code-style
  * @see https://github.com/gruntjs/grunt-contrib-jshint
  */
 module.exports = function (grunt, options) {

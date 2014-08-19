@@ -1,5 +1,5 @@
 /**
- * Concatenates bower_component css into a single library file – /public/lib/min/libraries.css
+ * Concatenates bower_component css into a single library file – /lib/min/libraries.css
  * @see https://www.npmjs.org/package/grunt-concat-css
  */
 module.exports = function (grunt, options) {

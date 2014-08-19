@@ -1,5 +1,5 @@
 /**
- * Concatenates custom JS files into a single file – /public/lib/min/scripts.min.js
+ * Concatenates custom JS files into a single file – /lib/min/scripts.min.js
  * @see https://github.com/gruntjs/grunt-contrib-concat
  */
 module.exports = function (grunt, options) {
