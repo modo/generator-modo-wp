@@ -4,7 +4,8 @@ var request = require('request'),
     fs = require('fs'),
     _ = require('underscore'),
     yeoman = require('yeoman-generator'),
-    AdmZip = require('adm-zip');
+    AdmZip = require('adm-zip'),
+    async = require('async');
 
 module.exports = yeoman.generators.Base.extend({
     _copyDirectory: function (src, dest) {
@@ -79,7 +80,7 @@ module.exports = yeoman.generators.Base.extend({
                 {
                     name: 'wp_dbHostname',
                     message: 'Database host:',
-                    default: 'localhost'
+                    default: '0.0.0.0'
                 },
                 {
                     name: 'wp_dbTablePrefix',
@@ -93,7 +94,7 @@ module.exports = yeoman.generators.Base.extend({
                 self[key] = value;
             });
 
-            self.themeDir = path.join('public/wp-content/themes' + props.themeName);
+            self.themeDir = path.join('public/wp-content/themes/', props.themeName);
 
             done();
         });
@@ -135,19 +136,12 @@ module.exports = yeoman.generators.Base.extend({
     cleanupMetaboxPlugin: function () {
         console.log('Cleaning up...');
         fs.unlinkSync('metabox.zip');
-    },
-
-    copyPackageFiles: function () {
-        // NPM
-        this.copy('_package.json', path.join(this.themeDir, 'package.json'));
-
-        // Bower
-        this.copy('_bower.json', path.join(this.themeDir, 'bower.json'));
+        fs.renameSync(path.join(this.themeDir, 'lib/inc/plugins/Custom-Metaboxes-and-Fields-for-WordPress-master'), path.join(this.themeDir, 'lib/inc/plugins/metabox'));
     },
 
     copyGruntConfigs: function () {
         // Main Gruntfile
-        this.template("_Gruntfile.js", path.join(this.themeDir, 'Gruntfile.js'), { sitename: this.siteName });
+        this.template("_Gruntfile.js", path.join(this.themeDir, 'Gruntfile.js'));
 
         // Grunt Task Configurations
         this._copyDirectory('grunt', path.join(this.themeDir, 'grunt/'));
@@ -165,24 +159,44 @@ module.exports = yeoman.generators.Base.extend({
         this._copyDirectory('sass/components', path.join(this.themeDir, 'lib/sass/components/'));
     },
 
-    // TODO: Add common WP theme files
+    copyThemeSkeleton: function () {
+        // Template Identifiers
+        this.template('theme/_style.css', path.join(this.themeDir, 'style.css'));
+        this.copy('theme/_screenshot.png', path.join(this.themeDir, 'screenshot.png'));
+
+        // PHP Functions
+        this.copy('theme/_functions.php', path.join(this.themeDir, 'functions.php'));
+        this._copyDirectory('inc', path.join(this.themeDir, 'lib/inc'));
+
+        // Page Components
+        this.copy('theme/_header.php', path.join(this.themeDir, 'header.php'));
+        this.copy('theme/_footer.php', path.join(this.themeDir, 'footer.php'));
+        this.copy('theme/_index.php', path.join(this.themeDir, 'index.php'));
+    },
+
+    copyPackageFiles: function () {
+        this.copy('_package.json', path.join('package.json'));
+        this.copy('_bower.json', path.join('bower.json'));
+    },
 
     runNpm: function () {
-        var done = this.async();
+        var self = this,
+            done = self.async();
 
-        process.chdir(this.themeDir);
-
-        this.npmInstall('', function () {
+        self.npmInstall('', function () {
+            fs.renameSync('node_modules', path.join(self.themeDir, 'node_modules'));
+            fs.renameSync('package.json', path.join(self.themeDir, 'package.json'));
             done();
         });
     },
 
     runBower: function () {
-        var done = this.async();
+        var self = this,
+            done = self.async();
 
-        process.chdir(this.themeDir);
-
-        this.bowerInstall('', function () {
+        self.bowerInstall('', function () {
+            fs.renameSync('bower_components', path.join(self.themeDir, 'bower_components'));
+            fs.renameSync('bower.json', path.join(self.themeDir, 'bower.json'));
             done();
         });
     }

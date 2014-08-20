@@ -10,7 +10,7 @@ module.exports = function (grunt) {
         },
         data: {
             project: {
-                name: '<%= sitename %>'
+                name: '<%= siteName %>'
             },
             path: {
                 cwd: __dirname,

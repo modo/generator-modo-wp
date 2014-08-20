@@ -8,7 +8,7 @@ module.exports = function (grunt, options) {
             logConcurrentOutput: true
         },
         site_development: [
-            'sass:development'm
+            'sass:development',
             'concat'
         ],
         site_production: [
