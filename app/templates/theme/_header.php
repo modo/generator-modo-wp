@@ -14,7 +14,7 @@
 
     <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/lib/min/styles.css" />
 
-    <script src="<?php echo get_template_directory_uri(); ?>/lib/min/preload.min.js"></script>
+    <script src="<?php echo get_template_directory_uri(); ?>/lib/min/libraries.min.js"></script>
     <script>
         window.site_url = '<?php echo site_url(); ?>';
         window.theme_dir = '<?php echo get_template_directory_uri(); ?>';
