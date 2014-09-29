@@ -26,5 +26,7 @@
     <?php
         $page = str_replace(' ', '-', strtolower(get_the_title()));
     ?>
+
+    <?php wp_head(); ?>
 </head>
 <body data-page="<?php echo $page; ?>">
